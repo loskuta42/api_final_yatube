@@ -4,8 +4,12 @@ from rest_framework import filters, permissions, viewsets
 
 from .models import Group, Post, User
 from .permissions import AuthorPermission, FollowPermission
-from .serializers import (CommentSerializer, FollowSerializer, GroupSerializer,
-                          PostSerializer)
+from .serializers import (
+    CommentSerializer,
+    FollowSerializer,
+    GroupSerializer,
+    PostSerializer
+)
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -52,7 +56,7 @@ class FollowViewSet(viewsets.ModelViewSet):
         permissions.IsAuthenticated, FollowPermission
     )
     filter_backends = [filters.SearchFilter]
-    search_fields = ['user__username']
+    search_fields = ('user__username', 'following__username')
 
     def get_queryset(self):
         user = get_object_or_404(User, id=self.request.user.pk)

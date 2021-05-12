@@ -9,7 +9,7 @@ class Group(models.Model):
     title = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.title
+        return self.title[:15]
 
 
 class Post(models.Model):
@@ -28,7 +28,7 @@ class Post(models.Model):
     )
 
     def __str__(self):
-        return self.text
+        return self.text[:15]
 
 
 class Comment(models.Model):
@@ -43,6 +43,9 @@ class Comment(models.Model):
         "Дата добавления", auto_now_add=True, db_index=True
     )
 
+    def __str__(self):
+        return self.text[:15]
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
@@ -56,5 +59,10 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
     )
 
+    def __str__(self):
+        return self.following[:15]
+
     class Meta:
-        UniqueConstraint(fields=['user', 'following'], name='unique_follower')
+        constraints = (
+            UniqueConstraint(fields=('user', 'following'), name='unique_follower'),
+        )
