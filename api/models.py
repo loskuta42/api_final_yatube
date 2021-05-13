@@ -59,9 +59,6 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
     )
 
-    def __str__(self):
-        return self.following[:15]
-
     class Meta:
         constraints = (
             UniqueConstraint(
@@ -69,3 +66,6 @@ class Follow(models.Model):
                 name='unique_follower'
             ),
         )
+
+    def __str__(self):
+        return f'{self.user} подписан на {self.following}'
